@@ -1,0 +1,4 @@
+# Netlify publica la carpeta raíz tal cual: no hay paso de compilación.
+[build]
+  publish = "."
+  command = ""

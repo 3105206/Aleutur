@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Al Eutur Perfumes — Perfumes Árabes Originales</title>
+<meta name="description" content="Perfumes árabes originales en Uruguay: Armaf, Lattafa, Maison Alhambra y más. Lujo, elegancia y larga duración.">
+<link rel="icon" href="img/logo.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Lora:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="brandmark"><img src="img/logo.jpg" alt="Al Eutur">AL EUTUR</div>
+    <div class="navlinks">
+      <a href="#coleccion">Colección</a>
+      <a href="#decants">Decants</a>
+      <a href="#about">Nosotros</a>
+      <a href="https://wa.me/59891700666" target="_blank">Contacto</a>
+    </div>
+    <a class="nav-cta" href="https://wa.me/59891700666?text=Hola%20Al%20Eutur%20Perfumes%20%F0%9F%8C%99" target="_blank">WhatsApp</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <img class="hero-logo" src="img/logo.jpg" alt="Al Eutur Perfumes">
+  <div class="kicker">Perfumes Árabes Originales</div>
+  <h1>Al Eutur Perfumes</h1>
+  <p>Lujo, elegancia y larga duración. Fragancias árabes de las mejores casas — Armaf, Lattafa, Maison Alhambra y más — importadas y curadas para vos.</p>
+  <div class="hero-cta">
+    <a class="btn btn-primary" href="#coleccion">Ver colección</a>
+    <a class="btn btn-outline" href="https://wa.me/59891700666?text=Hola%20Al%20Eutur%20Perfumes%20%F0%9F%8C%99" target="_blank">Escribinos</a>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <p>En <b>Al Eutur Perfumes</b> creemos que un gran perfume no debería costar una fortuna. Seleccionamos fragancias árabes de altísima calidad, con concentración y duración superior, para que vivas el lujo sin resignar tu bolsillo.</p>
+</section>
+
+<div class="section-head" id="coleccion">
+  <div class="kicker">Nuestra Colección</div>
+  <h2>Encontrá tu fragancia</h2>
+</div>
+
+<div class="filters">
+  <input type="text" id="search" placeholder="Buscar por nombre o marca..." oninput="filterCards()">
+  <button class="chip active" data-cat="all" onclick="setFilter('all',this)">Todos</button>
+  <button class="chip" data-cat="fresco" onclick="setFilter('fresco',this)">Frescos</button>
+  <button class="chip" data-cat="oriental" onclick="setFilter('oriental',this)">Orientales</button>
+  <button class="chip" data-cat="amaderado" onclick="setFilter('amaderado',this)">Amaderados</button>
+  <button class="chip" data-cat="gourmand" onclick="setFilter('gourmand',this)">Gourmand</button>
+</div>
+
+<div class="grid" id="grid"></div>
+<div class="empty-msg" id="emptyMsg">No encontramos fragancias con ese criterio. Probá otra búsqueda.</div>
+
+<section class="decants" id="decants">
+  <div class="section-head">
+    <div class="kicker">Probá antes de comprar</div>
+    <h2>Decants de 5 ml</h2>
+  </div>
+
+  <div class="dec-intro">
+    <div class="dec-fact"><div class="big">5 ml</div><div class="lab">El tamaño</div>
+      <p>Práctico para llevar en el bolso o la mochila</p></div>
+    <div class="dec-fact"><div class="big">80-90</div><div class="lab">Gatillos</div>
+      <p>Te rinde varias semanas de uso</p></div>
+    <div class="dec-fact"><div class="big">100%</div><div class="lab">Original</div>
+      <p>Del mismo frasco que vendemos entero</p></div>
+  </div>
+
+  <p class="dec-note">Una porción del perfume original trasvasada a un frasco atomizador de vidrio.<br>
+  El mismo perfume, en formato chico.</p>
+
+  <div class="dec-grid" id="decGrid"></div>
+
+  <div class="section-head" style="padding-top:30px">
+    <div class="kicker">Llevando 3 ahorrás</div>
+    <h2>Combos</h2>
+  </div>
+  <div class="combo-grid" id="comboGrid"></div>
+</section>
+
+
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalBg(event)">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<footer>
+  <div class="foot-logo">AL EUTUR PERFUMES</div>
+  <div class="foot-tag">Perfumes Árabes Originales · Lujo, Elegancia y Larga Duración</div>
+  <div class="foot-links">
+    <a href="https://wa.me/59891700666" target="_blank">WhatsApp</a>
+    <a href="https://instagram.com/aleutur_perfumeria" target="_blank">Instagram</a>
+  </div>
+</footer>
+
+<!-- Los perfumes se cargan desde datos/perfumes.js y datos/decants.js -->
+<script src="datos/perfumes.js"></script>
+<script src="datos/decants.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
