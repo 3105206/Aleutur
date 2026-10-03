@@ -18,6 +18,7 @@ Uso:
       --inspirado "Green Irish Tweed · Creed"
 
 Opcionales: --encargue  --despues-de <clave>  --etiqueta "Lanzamiento"
+            --seccion disenador   (para la sección de perfumes de diseñador)
 Requiere: pip install pillow numpy scipy
 """
 import argparse
@@ -30,8 +31,9 @@ RAIZ = Path(__file__).resolve().parent.parent
 DATOS = RAIZ / "datos" / "perfumes.js"
 IMGS = RAIZ / "img" / "perfumes"
 CATS = ("fresco", "oriental", "amaderado", "gourmand")
-ORDEN = ["k", "name", "brand", "fam", "cat", "encargue", "img",
+ORDEN = ["k", "name", "brand", "seccion", "fam", "cat", "encargue", "img",
          "desc", "top", "heart", "base", "il", "insp"]
+SECCIONES = ("arabe", "disenador")
 MARCA_INICIO = "window.PERFUMES = "
 
 
@@ -50,32 +52,41 @@ def escribir(cab, lista):
                      encoding="utf-8")
 
 
-def procesar_foto(origen, destino, alto=720):
-    """Quita el fondo liso que toca los bordes y guarda en WebP transparente."""
+def procesar_foto(origen, destino, alto=720, recorte_inferior=None):
+    """Quita el fondo liso que toca los bordes y guarda en WebP transparente.
+
+    El fondo se detecta por el color de las esquinas. Dentro de la zona de
+    fondo la transparencia es gradual, así un frasco negro sobre fondo negro
+    (o blanco sobre blanco) no queda con bordes mordidos.
+    """
     import numpy as np
-    from PIL import Image, ImageFilter
+    from PIL import Image
     from scipy import ndimage
 
     im = Image.open(origen)
+    if recorte_inferior:
+        im = im.crop((0, 0, im.width, recorte_inferior))
     if im.mode in ("RGBA", "LA") and np.array(im.convert("RGBA"))[..., 3].min() < 250:
         out = im.convert("RGBA")                      # ya viene sin fondo
     else:
-        rgb = np.array(im.convert("RGB")).astype(np.int16)
+        rgb = np.array(im.convert("RGB")).astype(np.float32)
         esquinas = np.concatenate([rgb[:6, :6].reshape(-1, 3), rgb[:6, -6:].reshape(-1, 3),
                                    rgb[-6:, :6].reshape(-1, 3), rgb[-6:, -6:].reshape(-1, 3)])
         fondo = np.median(esquinas, axis=0)
         dist = np.abs(rgb - fondo).max(axis=2)
-        parecido = dist < 24
-        etiquetas, _ = ndimage.label(parecido)
+        umbral = 42.0
+        etiquetas, _ = ndimage.label(dist < umbral)
         borde = set(etiquetas[0, :]) | set(etiquetas[-1, :]) | set(etiquetas[:, 0]) | set(etiquetas[:, -1])
         borde.discard(0)
-        es_fondo = np.isin(etiquetas, list(borde))
-        alfa = np.where(es_fondo, 0, 255).astype(np.uint8)
-        alfa = np.array(Image.fromarray(alfa).filter(ImageFilter.GaussianBlur(0.8)))
-        alfa[alfa < 40] = 0
-        out = Image.fromarray(np.dstack([rgb.astype(np.uint8), alfa]), "RGBA")
+        zona_fondo = np.isin(etiquetas, list(borde))
+        alfa = np.ones(dist.shape, dtype=np.float32)
+        alfa[zona_fondo] = np.clip((dist[zona_fondo] - 6.0) / (umbral - 6.0), 0.0, 1.0)
+        # recuperar el color real del frasco en los píxeles semitransparentes
+        a3 = np.maximum(alfa, 0.04)[..., None]
+        color = np.clip((rgb - (1.0 - a3) * fondo) / a3, 0, 255)
+        out = Image.fromarray(np.dstack([color, alfa * 255]).astype(np.uint8), "RGBA")
 
-    caja = out.getbbox()
+    caja = out.split()[3].point(lambda v: 255 if v > 24 else 0).getbbox()
     if caja:
         out = out.crop(caja)
     if out.height > alto:
@@ -100,6 +111,8 @@ def main():
     ap.add_argument("--etiqueta", default="Inspirado en", help='rótulo del recuadro (ej: "Lanzamiento")')
     ap.add_argument("--foto", help="foto del frasco; si se omite se mantiene la que ya exista")
     ap.add_argument("--encargue", action="store_true")
+    ap.add_argument("--seccion", choices=SECCIONES, default="arabe",
+                    help="arabe (colección con filtros) o disenador (sección Diseñador)")
     ap.add_argument("--despues-de", dest="despues", help="clave del perfume tras el cual insertarlo")
     a = ap.parse_args()
 
@@ -113,7 +126,8 @@ def main():
     elif not (RAIZ / img_rel).exists():
         sys.exit(f"Falta --foto y no existe {img_rel}")
 
-    ficha = {"k": a.clave, "name": a.nombre, "brand": a.marca, "fam": a.familia, "cat": a.cat,
+    ficha = {"k": a.clave, "name": a.nombre, "brand": a.marca, "seccion": a.seccion,
+             "fam": a.familia, "cat": a.cat,
              "encargue": bool(a.encargue), "img": img_rel, "desc": a.desc, "top": a.salida,
              "heart": a.corazon, "base": a.fondo, "il": a.etiqueta, "insp": a.inspirado}
     ficha = {k: ficha[k] for k in ORDEN}

@@ -11,10 +11,9 @@ function esc(t){
 }
 
 /* ---------- Colección ---------- */
-function renderGrid(){
-  const g = document.getElementById('grid');
-  if(!g) return;
-  g.innerHTML = DATA.map(p => `
+// Cada perfume va a la grilla de su sección: "disenador" o "arabe" (por defecto).
+function cardHTML(p){
+  return `
     <div class="card" data-cat="${esc(p.cat)}" data-name="${esc(p.name.toLowerCase())}" data-brand="${esc(p.brand.toLowerCase())}" onclick="openModal('${esc(p.k)}')">
       <div class="card-img"><img src="${esc(p.img)}" alt="${esc(p.name)}" loading="lazy">${p.encargue ? '<span class="badge">Por encargue</span>' : ''}</div>
       <div class="card-body">
@@ -22,7 +21,13 @@ function renderGrid(){
         <div class="card-name">${esc(p.name)}</div>
         <div class="card-fam">${esc(p.fam)}</div>
       </div>
-    </div>`).join('');
+    </div>`;
+}
+function renderGrid(){
+  const arabes = document.getElementById('grid');
+  const dis = document.getElementById('gridDis');
+  if(arabes) arabes.innerHTML = DATA.filter(p => p.seccion !== 'disenador').map(cardHTML).join('');
+  if(dis) dis.innerHTML = DATA.filter(p => p.seccion === 'disenador').map(cardHTML).join('');
 }
 
 function openModal(k){
@@ -68,7 +73,7 @@ function setFilter(cat, el){
 function filterCards(){
   const q = document.getElementById('search').value.trim().toLowerCase();
   let visible = 0;
-  document.querySelectorAll('.card').forEach(card=>{
+  document.querySelectorAll('#grid .card').forEach(card=>{
     const matchCat = currentFilter==='all' || card.dataset.cat===currentFilter;
     const matchQ = !q || card.dataset.name.includes(q) || card.dataset.brand.includes(q);
     const show = matchCat && matchQ;
