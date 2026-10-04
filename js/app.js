@@ -11,7 +11,7 @@ function esc(t){
 }
 
 /* ---------- Colección ---------- */
-// Cada perfume va a la grilla de su sección: "disenador" o "arabe" (por defecto).
+// Cada perfume va a una grilla según su sección (arabe | disenador) y género.
 function cardHTML(p){
   return `
     <div class="card" data-cat="${esc(p.cat)}" data-name="${esc(p.name.toLowerCase())}" data-brand="${esc(p.brand.toLowerCase())}" onclick="openModal('${esc(p.k)}')">
@@ -24,10 +24,18 @@ function cardHTML(p){
     </div>`;
 }
 function renderGrid(){
-  const arabes = document.getElementById('grid');
-  const dis = document.getElementById('gridDis');
-  if(arabes) arabes.innerHTML = DATA.filter(p => p.seccion !== 'disenador').map(cardHTML).join('');
-  if(dis) dis.innerHTML = DATA.filter(p => p.seccion === 'disenador').map(cardHTML).join('');
+  const esDis = p => p.seccion === 'disenador';
+  const esMujer = p => p.genero === 'mujer';
+  const grillas = {
+    gridDis:      p => esDis(p)  && !esMujer(p),   // Diseñador
+    grid:         p => !esDis(p) && !esMujer(p),   // Árabes (con buscador y filtros)
+    gridMujerDis: p => esDis(p)  && esMujer(p),    // Mujer · Diseñador
+    gridMujerAr:  p => !esDis(p) && esMujer(p)     // Mujer · Árabes
+  };
+  Object.keys(grillas).forEach(id => {
+    const g = document.getElementById(id);
+    if(g) g.innerHTML = DATA.filter(grillas[id]).map(cardHTML).join('');
+  });
 }
 
 function openModal(k){

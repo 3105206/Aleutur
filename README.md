@@ -29,7 +29,8 @@ Hacen falta dos cosas: la foto del frasco y los datos de la ficha.
   "k": "tresnuit",                      // clave única, minúsculas, sin espacios
   "name": "Tres Nuit",
   "brand": "Armaf",
-  "seccion": "arabe",                   // arabe | disenador (en qué sección aparece)
+  "seccion": "arabe",                   // arabe | disenador
+  "genero": "hombre",                   // hombre (incluye unisex) | mujer
   "fam": "Aromática verde",             // texto debajo del nombre
   "cat": "fresco",                      // fresco | oriental | amaderado | gourmand
   "encargue": false,                    // true = etiqueta "Por encargue"
@@ -45,9 +46,11 @@ Hacen falta dos cosas: la foto del frasco y los datos de la ficha.
 
 El orden de la lista es el orden en que se ven en la web, dentro de cada sección.
 
-La web tiene dos secciones de frascos enteros: **Diseñador** (arriba) y
-**Perfumes árabes** (con buscador y filtros). El campo `seccion` decide en cuál
-aparece cada ficha. Los de diseñador llevan `"il": "Presentación"` e
+La web tiene tres secciones de frascos enteros: **Diseñador** (arriba),
+**Perfumes árabes** (con buscador y filtros) y **Mujer**, que tiene un grupo
+de diseñador y otro de árabes. Los campos `seccion` y `genero` deciden dónde
+aparece cada ficha: con `"genero": "mujer"` va a la sección Mujer, en el grupo
+que le corresponda según `seccion`. Los de diseñador llevan `"il": "Presentación"` e
 `"insp": "Original · 100 ml"` en lugar del perfume de referencia.
 
 El script hace los dos pasos de una (quita el fondo negro o blanco de la foto,
@@ -59,6 +62,8 @@ python3 herramientas/agregar_perfume.py --foto foto.jpg --clave tresnuit \
   --desc "Descripción corta." --salida "Limón · Verbena" --corazon "Violeta · Iris" \
   --fondo "Ámbar gris · Sándalo" --inspirado "Green Irish Tweed · Creed"
 ```
+
+Para un perfume de mujer se agrega `--genero mujer`.
 
 Para un perfume de diseñador se agrega `--seccion disenador --etiqueta "Presentación"`
 y en `--inspirado` va la presentación (por ejemplo `"Original · 100 ml"`).

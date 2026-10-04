@@ -19,6 +19,7 @@ Uso:
 
 Opcionales: --encargue  --despues-de <clave>  --etiqueta "Lanzamiento"
             --seccion disenador   (para la sección de perfumes de diseñador)
+            --genero mujer        (para que aparezca en la sección Mujer)
 Requiere: pip install pillow numpy scipy
 """
 import argparse
@@ -31,9 +32,10 @@ RAIZ = Path(__file__).resolve().parent.parent
 DATOS = RAIZ / "datos" / "perfumes.js"
 IMGS = RAIZ / "img" / "perfumes"
 CATS = ("fresco", "oriental", "amaderado", "gourmand")
-ORDEN = ["k", "name", "brand", "seccion", "fam", "cat", "encargue", "img",
+ORDEN = ["k", "name", "brand", "seccion", "genero", "fam", "cat", "encargue", "img",
          "desc", "top", "heart", "base", "il", "insp"]
 SECCIONES = ("arabe", "disenador")
+GENEROS = ("hombre", "mujer")
 MARCA_INICIO = "window.PERFUMES = "
 
 
@@ -113,6 +115,8 @@ def main():
     ap.add_argument("--encargue", action="store_true")
     ap.add_argument("--seccion", choices=SECCIONES, default="arabe",
                     help="arabe (colección con filtros) o disenador (sección Diseñador)")
+    ap.add_argument("--genero", choices=GENEROS, default="hombre",
+                    help="mujer lo manda a la sección Mujer; hombre incluye los unisex")
     ap.add_argument("--despues-de", dest="despues", help="clave del perfume tras el cual insertarlo")
     a = ap.parse_args()
 
@@ -126,7 +130,7 @@ def main():
     elif not (RAIZ / img_rel).exists():
         sys.exit(f"Falta --foto y no existe {img_rel}")
 
-    ficha = {"k": a.clave, "name": a.nombre, "brand": a.marca, "seccion": a.seccion,
+    ficha = {"k": a.clave, "name": a.nombre, "brand": a.marca, "seccion": a.seccion, "genero": a.genero,
              "fam": a.familia, "cat": a.cat,
              "encargue": bool(a.encargue), "img": img_rel, "desc": a.desc, "top": a.salida,
              "heart": a.corazon, "base": a.fondo, "il": a.etiqueta, "insp": a.inspirado}

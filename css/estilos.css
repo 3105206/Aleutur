@@ -163,3 +163,17 @@ footer{border-top:1px solid rgba(198,160,91,.18);padding:60px 32px 40px;text-ali
 /* Separador entre la sección Diseñador y la colección árabe */
 .section-sep{border-top:1px solid rgba(198,160,91,.15)}
 #gridDis{padding-bottom:70px}
+
+/* Sección Mujer: subtítulos de cada grupo */
+.sub-head{display:flex;align-items:center;gap:22px;max-width:1200px;margin:0 auto 30px;padding:0 32px;
+  font-family:'Jost',sans-serif;font-weight:400;letter-spacing:5px;text-transform:uppercase;font-size:13px;color:var(--gold-l)}
+.sub-head::before,.sub-head::after{content:"";flex:1;height:1px;background:rgba(198,160,91,.22)}
+#gridMujerDis{padding-bottom:60px}
+
+/* Atajos a las secciones: solo en celular, donde el menú de arriba no se ve */
+.atajos{display:none}
+@media(max-width:760px){
+  .atajos{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:30px}
+  .atajos a{font-family:'Jost',sans-serif;letter-spacing:1px;text-transform:uppercase;font-size:12px;
+    padding:10px 18px;border:1px solid rgba(198,160,91,.35);border-radius:20px;color:var(--ivory)}
+}
