@@ -6,6 +6,15 @@ const DECANTS = window.DECANTS || [];
 const COMBOS = window.COMBOS || [];
 const WA = "59891700666";
 
+// Precio para mostrar: "$ 2.390", "Consultar precio" o "No disponible por ahora".
+function precioTxt(p){
+  if(p.disponible === false) return 'No disponible por ahora';
+  if(!p.precio) return 'Consultar precio';
+  return '$ ' + Number(p.precio).toLocaleString('es-UY');
+}
+function precioClase(p){
+  return p.disponible === false ? 'agotado' : (p.precio ? '' : 'consultar');
+}
 function esc(t){
   return String(t == null ? '' : t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
@@ -20,6 +29,7 @@ function cardHTML(p){
         <div class="card-brand">${esc(p.brand)}</div>
         <div class="card-name">${esc(p.name)}</div>
         <div class="card-fam">${esc(p.fam)}</div>
+        <div class="card-price ${precioClase(p)}">${precioTxt(p)}</div>
       </div>
     </div>`;
 }
@@ -49,6 +59,7 @@ function openModal(k){
       <div class="modal-brand">${esc(p.brand)}</div>
       <div class="modal-name">${esc(p.name)}</div>
       <div class="modal-fam">${esc(p.fam)}</div>
+      <div class="modal-price ${precioClase(p)}">${precioTxt(p)}</div>
       ${encargueBadge}
       <div class="modal-desc">${esc(p.desc)}</div>
       <div class="notes">

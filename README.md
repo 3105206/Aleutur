@@ -34,6 +34,8 @@ Hacen falta dos cosas: la foto del frasco y los datos de la ficha.
   "fam": "Aromática verde",             // texto debajo del nombre
   "cat": "fresco",                      // fresco | oriental | amaderado | gourmand
   "encargue": false,                    // true = etiqueta "Por encargue"
+  "disponible": true,                   // false = "No disponible por ahora"
+  "precio": 2390,                       // pesos, sin puntos; null = "Consultar precio"
   "img": "img/perfumes/tresnuit.webp",
   "desc": "Descripción corta del perfume.",
   "top": "Limón · Verbena",             // notas de salida
@@ -67,6 +69,11 @@ Para un perfume de mujer se agrega `--genero mujer`.
 
 Para un perfume de diseñador se agrega `--seccion disenador --etiqueta "Presentación"`
 y en `--inspirado` va la presentación (por ejemplo `"Original · 100 ml"`).
+
+## Cómo cambiar el precio de un perfume
+
+Editar el campo `precio` de su bloque en `datos/perfumes.js` (en pesos, sin puntos).
+Con `null` la ficha muestra "Consultar precio".
 
 ## Cómo cambiar un precio de decant o un combo
 

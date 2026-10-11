@@ -32,7 +32,7 @@ RAIZ = Path(__file__).resolve().parent.parent
 DATOS = RAIZ / "datos" / "perfumes.js"
 IMGS = RAIZ / "img" / "perfumes"
 CATS = ("fresco", "oriental", "amaderado", "gourmand")
-ORDEN = ["k", "name", "brand", "seccion", "genero", "fam", "cat", "encargue", "img",
+ORDEN = ["k", "name", "brand", "seccion", "genero", "fam", "cat", "encargue", "disponible", "precio", "img",
          "desc", "top", "heart", "base", "il", "insp"]
 SECCIONES = ("arabe", "disenador")
 GENEROS = ("hombre", "mujer")
@@ -113,6 +113,8 @@ def main():
     ap.add_argument("--etiqueta", default="Inspirado en", help='rótulo del recuadro (ej: "Lanzamiento")')
     ap.add_argument("--foto", help="foto del frasco; si se omite se mantiene la que ya exista")
     ap.add_argument("--encargue", action="store_true")
+    ap.add_argument("--precio", type=int, help="precio de venta en pesos, sin puntos (ej: 2390)")
+    ap.add_argument("--no-disponible", dest="no_disp", action="store_true", help="muestra 'No disponible por ahora'")
     ap.add_argument("--seccion", choices=SECCIONES, default="arabe",
                     help="arabe (colección con filtros) o disenador (sección Diseñador)")
     ap.add_argument("--genero", choices=GENEROS, default="hombre",
@@ -132,7 +134,7 @@ def main():
 
     ficha = {"k": a.clave, "name": a.nombre, "brand": a.marca, "seccion": a.seccion, "genero": a.genero,
              "fam": a.familia, "cat": a.cat,
-             "encargue": bool(a.encargue), "img": img_rel, "desc": a.desc, "top": a.salida,
+             "encargue": bool(a.encargue), "disponible": not a.no_disp, "precio": a.precio, "img": img_rel, "desc": a.desc, "top": a.salida,
              "heart": a.corazon, "base": a.fondo, "il": a.etiqueta, "insp": a.inspirado}
     ficha = {k: ficha[k] for k in ORDEN}
 

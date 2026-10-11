@@ -203,3 +203,12 @@ footer{border-top:1px solid rgba(198,160,91,.18);padding:60px 32px 40px;text-ali
   .vitrina{overflow-x:auto}
   .vitrina-pista{animation:none}
 }
+
+/* Precios en fichas y modal */
+.card-price{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold-l);margin-top:12px;letter-spacing:1px}
+.modal-price{font-family:'Playfair Display',serif;font-size:30px;color:var(--gold-l);margin:-10px 0 22px;letter-spacing:1px}
+.card-price.consultar,.modal-price.consultar{font-family:'Jost',sans-serif;font-size:12px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--gold)}
+.modal-price.consultar{font-size:13px}
+.card-price.agotado,.modal-price.agotado{font-family:'Jost',sans-serif;font-size:12px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--muted)}
