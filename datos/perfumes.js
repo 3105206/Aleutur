@@ -1448,7 +1448,7 @@ window.PERFUMES = [
     "cat": "fresco",
     "encargue": false,
     "disponible": true,
-    "precio": null,
+    "precio": 4000,
     "img": "img/perfumes/issey_homme.webp",
     "desc": "Yuzu y cítricos chispeantes sobre maderas y especias suaves. Un clásico fresco, limpio y muy reconocible.",
     "top": "Yuzu · Limón · Bergamota",
