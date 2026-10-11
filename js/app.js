@@ -150,5 +150,20 @@ function renderDecants(){
   }).join('');
 }
 
+/* ---------- Vitrina animada del inicio ---------- */
+// Claves de los perfumes que pasan por la fila del inicio (en este orden).
+const CARRUSEL = ['sauvage_edp','yara','khamrah','very_good_girl','eros_flame','clubdenuit','libre_edp',
+  'lemale_elixir','maleka','adg_profondo_edp','baroque','la_bomba','invictus_victory_elixir','khamrah_waha',
+  'scandal_parfum','mega','val_donna_extradose','iconic','paradigme','yaraelixir','bad_boy'];
+function renderVitrina(){
+  const v = document.getElementById('vitrina');
+  if(!v) return;
+  const items = CARRUSEL.map(k => DATA.find(p => p.k === k)).filter(Boolean);
+  const html = items.map(p => `<div class="vitrina-item" onclick="openModal('${esc(p.k)}')" title="${esc(p.name)}">
+      <img src="${esc(p.img)}" alt="${esc(p.name)}"></div>`).join('');
+  v.innerHTML = html + html.replace(/alt="/g, 'aria-hidden="true" alt="');   // duplicado para que el giro no tenga cortes
+}
+
 renderGrid();
 renderDecants();
+renderVitrina();
