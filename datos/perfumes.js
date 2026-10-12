@@ -1439,6 +1439,25 @@ window.PERFUMES = [
     "insp": "Original · consultá presentaciones"
   },
   {
+    "k": "eros_femme",
+    "name": "Eros Pour Femme",
+    "brand": "Versace",
+    "seccion": "disenador",
+    "genero": "mujer",
+    "fam": "Floral amaderada",
+    "cat": "fresco",
+    "encargue": false,
+    "disponible": true,
+    "precio": 4990,
+    "img": "img/perfumes/eros_femme.webp",
+    "desc": "Limón y granada sobre peonía y jazmín, con un fondo de sándalo y almizcle. Luminoso, femenino y elegante.",
+    "top": "Limón · Granada · Bergamota",
+    "heart": "Peonía · Jazmín sambac · Flor de loto",
+    "base": "Sándalo · Almizcle · Ambroxan",
+    "il": "Presentación",
+    "insp": "Original · consultá presentaciones"
+  },
+  {
     "k": "issey_homme",
     "name": "L'Eau d'Issey Pour Homme",
     "brand": "Issey Miyake",
