@@ -1211,6 +1211,25 @@ window.PERFUMES = [
     "insp": "Original · consultá presentaciones"
   },
   {
+    "k": "lebeau_paradise",
+    "name": "Le Beau Paradise Garden",
+    "brand": "Jean Paul Gaultier",
+    "seccion": "disenador",
+    "genero": "hombre",
+    "fam": "Acuática verde",
+    "cat": "fresco",
+    "encargue": false,
+    "disponible": true,
+    "precio": 5390,
+    "img": "img/perfumes/lebeau_paradise.webp",
+    "desc": "Menta y jengibre con coco salado e higo verde sobre sándalo. Fresco, tropical y muy de verano.",
+    "top": "Notas acuáticas · Menta · Jengibre",
+    "heart": "Coco salado · Higo verde",
+    "base": "Sándalo · Haba tonka",
+    "il": "Presentación",
+    "insp": "Original · consultá presentaciones"
+  },
+  {
     "k": "polo_blue",
     "name": "Polo Blue",
     "brand": "Ralph Lauren",
@@ -1606,6 +1625,25 @@ window.PERFUMES = [
     "top": "Bergamota de Calabria",
     "heart": "Geranio bourbon",
     "base": "Maderas ambaradas",
+    "il": "Presentación",
+    "insp": "Original · consultá presentaciones"
+  },
+  {
+    "k": "luna_rossa_ocean",
+    "name": "Luna Rossa Ocean",
+    "brand": "Prada",
+    "seccion": "disenador",
+    "genero": "hombre",
+    "fam": "Aromática fresca",
+    "cat": "fresco",
+    "encargue": false,
+    "disponible": true,
+    "precio": 7290,
+    "img": "img/perfumes/luna_rossa_ocean.webp",
+    "desc": "Bergamota y pimienta rosa sobre lavanda, iris y gamuza, con fondo de vetiver. Fresco, elegante y muy versátil.",
+    "top": "Bergamota · Pimienta rosa · Artemisa",
+    "heart": "Lavanda · Iris · Gamuza",
+    "base": "Vetiver · Almizcle · Pachulí",
     "il": "Presentación",
     "insp": "Original · consultá presentaciones"
   }
