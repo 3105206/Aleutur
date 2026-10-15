@@ -130,6 +130,27 @@
   </div>
 </footer>
 
+<!-- Carrito -->
+<button class="cart-fab" id="cartFab" onclick="abrirCarrito()" aria-label="Ver carrito">
+  <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l-1.2 12.2a1 1 0 0 1-1 .8H8.2a1 1 0 0 1-1-.8L6 7z"/><path d="M9 7V6a3 3 0 0 1 6 0v1"/></svg>
+  <span class="cart-count" id="cartCount">0</span>
+</button>
+<div class="cart-panel" id="cartPanel" onclick="if(event.target===this)cerrarCarrito()">
+  <aside class="cart-box" role="dialog" aria-label="Carrito">
+    <div class="cart-head">
+      <h3>Tu pedido</h3>
+      <button class="cart-close" onclick="cerrarCarrito()" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-foot" id="cartFoot">
+      <div class="cart-total"><span>Total</span><strong id="cartTotal">$ 0</strong></div>
+      <p class="cart-nota" id="cartNota"></p>
+      <button class="cart-go" onclick="finalizarPedido()">Finalizar pedido por WhatsApp</button>
+      <button class="cart-clear" onclick="vaciarCarrito()">Vaciar carrito</button>
+    </div>
+  </aside>
+</div>
+
 <!-- Los perfumes se cargan desde datos/perfumes.js y datos/decants.js -->
 <script src="datos/perfumes.js"></script>
 <script src="datos/decants.js"></script>

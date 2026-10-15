@@ -90,3 +90,12 @@ sacarlo también de `datos/decants.js`.
 
 - WhatsApp: el número está en `js/app.js` (constante `WA`) y en los enlaces de `index.html`.
 - Instagram: `aleutur_perfumeria`, en el pie de `index.html`.
+
+## Carrito
+
+Cada ficha, decant y combo tiene un botón "Agregar al carrito". El carrito queda
+guardado en el navegador del cliente, y "Finalizar pedido por WhatsApp" abre un
+chat con el detalle del pedido y el total. Los productos sin precio se listan como
+"precio a consultar" y no suman al total. La lógica está en `js/app.js`
+(sección "Carrito").
+
