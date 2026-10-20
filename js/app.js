@@ -259,6 +259,53 @@ function finalizarPedido(){
 }
 document.addEventListener('keydown', e => { if(e.key === 'Escape') cerrarCarrito(); });
 
+
+/* ---------- Buscador general ---------- */
+// Busca en nombre, marca, familia, notas e "inspirado en" (por ej. "aventus" encuentra el Club de Nuit).
+const norm = t => String(t || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+function buscar(q){
+  const box = document.getElementById('busRes');
+  const palabras = norm(q).split(/\s+/).filter(Boolean);
+  if(!palabras.length){
+    box.innerHTML = '<p class="bus-ayuda">Escribí el nombre del perfume, la marca o el perfume en el que se inspira.</p>';
+    return;
+  }
+  const puntaje = p => {
+    const nombre = norm(p.name + ' ' + p.brand), resto = norm([p.fam, p.insp, p.top, p.heart, p.base].join(' '));
+    let s = 0;
+    for(const w of palabras){
+      if(nombre.includes(w)) s += nombre.startsWith(w) ? 3 : 2;
+      else if(resto.includes(w)) s += 1;
+      else return 0;
+    }
+    return s;
+  };
+  const res = DATA.map(p => [puntaje(p), p]).filter(x => x[0] > 0).sort((a, b) => b[0] - a[0]).slice(0, 40).map(x => x[1]);
+  if(!res.length){
+    box.innerHTML = `<p class="bus-ayuda">No encontramos "${esc(q)}". <a target="_blank" href="${waLink('Hola! Están trayendo el perfume ' + q + '?')}">Preguntanos por WhatsApp</a> y te lo conseguimos.</p>`;
+    return;
+  }
+  box.innerHTML = res.map(p => `<div class="bus-item" onclick="cerrarBuscador();openModal('${esc(p.k)}')">
+      <img src="${esc(p.img)}" alt="" loading="lazy">
+      <div class="bus-txt">
+        <div class="bus-marca">${esc(p.brand)}</div>
+        <div class="bus-nombre">${esc(p.name)}</div>
+        <div class="bus-fam">${esc(p.fam)}${p.il === 'Inspirado en' ? ' · ' + esc(p.insp) : ''}</div>
+      </div>
+      <div class="bus-precio ${precioClase(p)}">${precioTxt(p)}</div>
+    </div>`).join('');
+}
+function abrirBuscador(){
+  document.getElementById('buscador').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  const i = document.getElementById('busInput'); buscar(i.value); setTimeout(() => i.focus(), 50);
+}
+function cerrarBuscador(){ document.getElementById('buscador').classList.remove('open'); document.body.style.overflow = ''; }
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape') cerrarBuscador();
+  if(e.key === '/' && !/input|textarea/i.test(document.activeElement.tagName)){ e.preventDefault(); abrirBuscador(); }
+});
+
 renderGrid();
 renderDecants();
 renderCart();

@@ -22,7 +22,10 @@
       <a href="#about">Nosotros</a>
       <a href="https://wa.me/59891700666" target="_blank">Contacto</a>
     </div>
+    <div class="nav-der">
+    <button class="nav-buscar" onclick="abrirBuscador()" aria-label="Buscar perfume"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg></button>
     <a class="nav-cta" href="https://wa.me/59891700666?text=Hola%20Al%20Eutur%20Perfumes%20%F0%9F%8C%99" target="_blank">WhatsApp</a>
+    </div>
   </nav>
 </header>
 
@@ -31,6 +34,7 @@
   <div class="kicker">Perfumes Originales</div>
   <h1>Al Eutur Perfumes</h1>
   <p>Lujo, elegancia y larga duración. Originales de diseñador y fragancias árabes de las mejores casas — Armaf, Lattafa, Maison Alhambra y más.</p>
+  <button class="hero-buscar" onclick="abrirBuscador()"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg><span>Buscá tu perfume por nombre, marca o inspiración…</span></button>
   <div class="hero-cta">
     <a class="btn btn-primary" href="#disenador">Ver colección</a>
     <a class="btn btn-outline" href="https://wa.me/59891700666?text=Hola%20Al%20Eutur%20Perfumes%20%F0%9F%8C%99" target="_blank">Escribinos</a>
@@ -129,6 +133,18 @@
     <a href="https://instagram.com/aleutur_perfumeria" target="_blank">Instagram</a>
   </div>
 </footer>
+
+<!-- Buscador -->
+<div class="buscador" id="buscador" onclick="if(event.target===this)cerrarBuscador()">
+  <div class="bus-box" role="dialog" aria-label="Buscar perfume">
+    <div class="bus-barra">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+      <input id="busInput" type="text" enterkeyhint="search" placeholder="Ej: Sauvage, Lattafa, Aventus, vainilla…" autocomplete="off" oninput="buscar(this.value)">
+      <button class="bus-cerrar" onclick="cerrarBuscador()" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="bus-res" id="busRes"></div>
+  </div>
+</div>
 
 <!-- Carrito -->
 <button class="cart-fab" id="cartFab" onclick="abrirCarrito()" aria-label="Ver carrito">
