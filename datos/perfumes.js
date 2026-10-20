@@ -1106,7 +1106,7 @@ window.PERFUMES = [
     "cat": "fresco",
     "encargue": false,
     "disponible": true,
-    "precio": 4690,
+    "precio": 5290,
     "img": "img/perfumes/y_edp.webp",
     "desc": "Manzana y jengibre al abrir, salvia en el corazón y un fondo amaderado. Fresco con mucha duración.",
     "top": "Manzana · Jengibre · Bergamota",
