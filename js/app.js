@@ -19,40 +19,49 @@ function esc(t){
   return String(t == null ? '' : t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-/* ---------- Colección ---------- */
-// Cada perfume va a una grilla según su sección (arabe | disenador) y género.
+/* ---------- Tienda: pestañas Hombre / Mujer / Decants ---------- */
+let TAB = 'hombre', SUB = 'todos';
 function cardHTML(p){
+  const puede = p.disponible !== false;
   return `
-    <div class="card" data-cat="${esc(p.cat)}" data-name="${esc(p.name.toLowerCase())}" data-brand="${esc(p.brand.toLowerCase())}" onclick="openModal('${esc(p.k)}')">
-      <div class="card-img"><img src="${esc(p.img)}" alt="${esc(p.name)}" loading="lazy">${p.encargue ? '<span class="badge">Por encargue</span>' : ''}</div>
+    <div class="card" onclick="openModal('${esc(p.k)}')">
+      <div class="card-img"><img src="${esc(p.img)}" alt="${esc(p.name)}" loading="lazy">
+        ${puede ? `<button class="add" aria-label="Agregar al carrito" onclick="event.stopPropagation();addPerfume('${esc(p.k)}', this)">+</button>` : ''}
+      </div>
       <div class="card-body">
         <div class="card-brand">${esc(p.brand)}</div>
         <div class="card-name">${esc(p.name)}</div>
-        <div class="card-fam">${esc(p.fam)}</div>
         <div class="card-price ${precioClase(p)}">${precioTxt(p)}</div>
-        ${p.disponible === false ? '' : `<button class="add-btn" onclick="event.stopPropagation();addPerfume('${esc(p.k)}', this)">Agregar al carrito</button>`}
       </div>
     </div>`;
 }
+function delTab(){ return DATA.filter(p => (p.genero === 'mujer') === (TAB === 'mujer')); }
 function renderGrid(){
-  const esDis = p => p.seccion === 'disenador';
-  const esMujer = p => p.genero === 'mujer';
-  const grillas = {
-    gridDis:      p => esDis(p)  && !esMujer(p),   // Diseñador
-    grid:         p => !esDis(p) && !esMujer(p),   // Árabes (con buscador y filtros)
-    gridMujerDis: p => esDis(p)  && esMujer(p),    // Mujer · Diseñador
-    gridMujerAr:  p => !esDis(p) && esMujer(p)     // Mujer · Árabes
-  };
-  Object.keys(grillas).forEach(id => {
-    const g = document.getElementById(id);
-    if(g) g.innerHTML = DATA.filter(grillas[id]).map(cardHTML).join('');
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.tab === TAB));
+  const esDec = TAB === 'decants';
+  document.getElementById('subtabs').hidden = esDec;
+  document.getElementById('grid').hidden = esDec;
+  document.getElementById('decantsBox').hidden = !esDec;
+  if(esDec) return;
+  const lista = delTab();
+  const cuenta = {todos: lista.length, disenador: lista.filter(p => p.seccion === 'disenador').length};
+  cuenta.arabe = cuenta.todos - cuenta.disenador;
+  document.querySelectorAll('.sub').forEach(b => {
+    b.classList.toggle('on', b.dataset.sub === SUB);
+    b.innerHTML = b.textContent.replace(/\d+$/, '').trim() + ` <small>${cuenta[b.dataset.sub]}</small>`;
   });
+  const orden = p => p.seccion === 'disenador' ? 0 : 1;
+  const ver = lista.filter(p => SUB === 'todos' || p.seccion === SUB)
+    .sort((a, b) => orden(a) - orden(b) || (a.disponible === false) - (b.disponible === false));
+  document.getElementById('grid').innerHTML = ver.map(cardHTML).join('');
 }
+function setTab(t){ TAB = t; SUB = 'todos'; renderGrid(); history.replaceState(null, '', '#' + t); }
+function setSub(s){ SUB = s; renderGrid(); }
+function irA(t){ setTab(t); document.getElementById('tienda').scrollIntoView({behavior:'smooth'}); event && event.preventDefault(); }
 
 function openModal(k){
   const p = DATA.find(x=>x.k===k);
   if(!p) return;
-  const encargueBadge = p.encargue ? '<div class="modal-encargue">Solo por encargue</div>' : '';
   document.getElementById('modalContent').innerHTML = `
     <div class="mclose" onclick="closeModal()">✕</div>
     <div class="modal-img"><img src="${esc(p.img)}" alt="${esc(p.name)}"></div>
@@ -61,17 +70,13 @@ function openModal(k){
       <div class="modal-name">${esc(p.name)}</div>
       <div class="modal-fam">${esc(p.fam)}</div>
       <div class="modal-price ${precioClase(p)}">${precioTxt(p)}</div>
-      ${encargueBadge}
       <div class="modal-desc">${esc(p.desc)}</div>
       <div class="notes">
         <div class="note-row"><span class="note-label">Salida</span><span>${esc(p.top)}</span></div>
         <div class="note-row"><span class="note-label">Corazón</span><span>${esc(p.heart)}</span></div>
         <div class="note-row"><span class="note-label">Fondo</span><span>${esc(p.base)}</span></div>
       </div>
-      <div class="insp-box">
-        <div class="insp-label">${esc(p.il)}</div>
-        <div class="insp-value">${esc(p.insp)}</div>
-      </div>
+      ${p.il === 'Inspirado en' ? `<div class="insp">Inspirado en <b>${esc(p.insp)}</b></div>` : ''}
       <div class="modal-actions">
         ${p.disponible === false ? '' : `<button class="modal-cta" onclick="addPerfume('${esc(p.k)}', this)">Agregar al carrito</button>`}
         <a class="modal-ghost" href="https://wa.me/${WA}?text=${encodeURIComponent('Hola! Me interesa el perfume '+p.name+' de '+p.brand+'. ¿Me pasás info?')}" target="_blank">Consultar por WhatsApp</a>
@@ -85,26 +90,6 @@ function closeModal(){
   document.body.style.overflow='';
 }
 function closeModalBg(e){ if(e.target.id==='modalOverlay') closeModal(); }
-
-let currentFilter='all';
-function setFilter(cat, el){
-  currentFilter = cat;
-  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
-  el.classList.add('active');
-  filterCards();
-}
-function filterCards(){
-  const q = document.getElementById('search').value.trim().toLowerCase();
-  let visible = 0;
-  document.querySelectorAll('#grid .card').forEach(card=>{
-    const matchCat = currentFilter==='all' || card.dataset.cat===currentFilter;
-    const matchQ = !q || card.dataset.name.includes(q) || card.dataset.brand.includes(q);
-    const show = matchCat && matchQ;
-    card.style.display = show ? '' : 'none';
-    if(show) visible++;
-  });
-  document.getElementById('emptyMsg').style.display = visible===0 ? 'block' : 'none';
-}
 document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
 
 /* ---------- Decants y combos ---------- */
@@ -130,34 +115,24 @@ function renderDecants(){
   g.innerHTML = DECANTS.map(x=>{
     const p = infoOf(x.k);
     const nombre = x.name || p.name, marca = x.brand || p.brand;
-    return `<div class="dec-card">
-      <div class="dec-img"><img src="${esc(imgOf(x))}" alt="${esc(nombre)}" loading="lazy"></div>
-      <div class="dec-body">
-        <div class="dec-brand">${esc(marca)}</div>
-        <div class="dec-name">${esc(nombre)}</div>
-        <div class="dec-dupe">${esc(x.dupe)}</div>
-        <div class="dec-price">$ ${esc(x.precio)}</div>
-        <button class="dec-cta" onclick="addDecant('${esc(x.k)}', this)">Agregar al carrito</button>
+    return `<div class="card" onclick="addDecant('${esc(x.k)}', this.querySelector('.add'))">
+      <div class="card-img"><img src="${esc(imgOf(x))}" alt="${esc(nombre)}" loading="lazy">
+        <button class="add" aria-label="Agregar al carrito" onclick="event.stopPropagation();addDecant('${esc(x.k)}', this)">+</button></div>
+      <div class="card-body">
+        <div class="card-brand">${esc(marca)}</div>
+        <div class="card-name">${esc(nombre)}</div>
+        <div class="card-sub">${esc(x.dupe)}</div>
+        <div class="card-price">$ ${esc(x.precio)}</div>
       </div>
     </div>`;
   }).join('');
 
-  const c = document.getElementById('comboGrid');
-  c.innerHTML = COMBOS.map(cb=>{
-    const imgs = cb.items.length
-      ? cb.items.map((k,i)=>`${i?'<span>+</span>':''}<img src="${esc(imgOf({k:k}))}" alt="" loading="lazy">`).join('')
-      : DECANTS.slice(0,3).map((x,i)=>`${i?'<span>+</span>':''}<img src="${esc(imgOf(x))}" alt="" loading="lazy">`).join('');
-    const lista = cb.labels.length
-      ? '<ul>'+cb.labels.map(l=>`<li>${esc(l)}</li>`).join('')+'</ul>'
-      : '<ul><li>Cualquiera de los '+DECANTS.length+' decants</li><li>Vos elegís los tres</li></ul>';
-    return `<div class="combo${cb.destacado?' destacado':''}">
-      <h4>${esc(cb.nombre)}</h4>
-      <div class="sub">3 decants de 5 ml</div>
-      <div class="combo-imgs">${imgs}</div>
-      ${lista}
-      <div class="precio">$ ${esc(cb.precio)}</div>
-      <div class="ahorro">${esc(cb.ahorro)}</div>
-      <button class="dec-cta" onclick="addCombo(${COMBOS.indexOf(cb)}, this)">Agregar combo</button>
+  document.getElementById('comboGrid').innerHTML = COMBOS.map((cb, i)=>{
+    const det = cb.labels.length ? cb.labels.join(' · ') : 'Elegí los 3 que quieras';
+    return `<div class="combo">
+      <div class="combo-txt"><h4>${esc(cb.nombre)}</h4><p>${esc(det)}</p></div>
+      <div class="combo-precio"><b>$ ${esc(cb.precio)}</b><span>${esc(cb.ahorro)}</span></div>
+      <button class="btn-linea" onclick="addCombo(${i}, this)">Agregar</button>
     </div>`;
   }).join('');
 }
@@ -190,7 +165,7 @@ function addItem(item, btn){
   guardarCarrito(); renderCart();
   const fab = document.getElementById('cartFab');
   fab.classList.remove('pop'); void fab.offsetWidth; fab.classList.add('pop');
-  if(btn){ const t = btn.textContent; btn.textContent = '✓ Agregado'; btn.classList.add('ok');
+  if(btn){ const t = btn.textContent; btn.textContent = btn.classList.contains('add') ? '✓' : '✓ Agregado'; btn.classList.add('ok');
     setTimeout(()=>{ btn.textContent = t; btn.classList.remove('ok'); }, 1300); }
 }
 function addPerfume(k, btn){
@@ -218,7 +193,7 @@ function totalCarrito(){ return CART.reduce((s,x) => s + (x.precio ? x.precio * 
 function renderCart(){
   const n = CART.reduce((s,x) => s + x.cant, 0);
   const fab = document.getElementById('cartFab');
-  fab.style.display = n ? 'flex' : 'none';
+  fab.classList.toggle('lleno', n > 0);
   document.getElementById('cartCount').textContent = n;
   const list = document.getElementById('cartItems');
   if(!CART.length){
@@ -306,6 +281,8 @@ document.addEventListener('keydown', e => {
   if(e.key === '/' && !/input|textarea/i.test(document.activeElement.tagName)){ e.preventDefault(); abrirBuscador(); }
 });
 
+const inicial = location.hash.slice(1);
+if(['hombre','mujer','decants'].includes(inicial)) TAB = inicial;
 renderGrid();
 renderDecants();
 renderCart();
