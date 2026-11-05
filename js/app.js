@@ -164,7 +164,7 @@ function renderDecants(){
 
 /* ---------- Vitrina animada del inicio ---------- */
 // Claves de los perfumes que pasan por la fila del inicio (en este orden).
-const CARRUSEL = ['sauvage_edp','yara','khamrah','very_good_girl','eros_flame','clubdenuit','libre_edp',
+const CARRUSEL = ['sauvage_edp','toy_boy','yara','moschino_gummy','khamrah','very_good_girl','eros_flame','clubdenuit','libre_edp',
   'lemale_elixir','maleka','adg_profondo_edp','baroque','la_bomba','invictus_victory_elixir','khamrah_waha',
   'scandal_parfum','mega','val_donna_extradose','iconic','paradigme','yaraelixir','bad_boy'];
 function renderVitrina(){
