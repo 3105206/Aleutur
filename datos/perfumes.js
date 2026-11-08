@@ -1855,5 +1855,24 @@ window.PERFUMES = [
     "base": "Rosa · Vetiver · Almizcle",
     "il": "Presentación",
     "insp": "Original · consultá presentaciones"
+  },
+  {
+    "k": "cdn_bling",
+    "name": "Club de Nuit Bling",
+    "brand": "Armaf",
+    "seccion": "arabe",
+    "genero": "hombre",
+    "fam": "Cítrica amaderada",
+    "cat": "fresco",
+    "encargue": false,
+    "disponible": true,
+    "precio": 3490,
+    "img": "img/perfumes/cdn_bling.webp",
+    "desc": "El Club de Nuit más brillante, literalmente: frasco cubierto de cristales. Salida cítrica fresca, corazón floral y fondo de vainilla y maderas. Moderno, limpio y con mucha presencia.",
+    "top": "Cítricos",
+    "heart": "Flores · Notas minerales",
+    "base": "Vainilla · Maderas · Almizcle",
+    "il": "Inspiración",
+    "insp": "Un Club de Nuit más fresco y juvenil, ideal para el día"
   }
 ];
