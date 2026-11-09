@@ -1950,5 +1950,24 @@ window.PERFUMES = [
     "base": "Almizcle blanco · Vainilla",
     "il": "Presentación",
     "insp": "Original · consultá presentaciones"
+  },
+  {
+    "k": "val_vendetta_uomo",
+    "name": "Vendetta Uomo",
+    "brand": "Valentino",
+    "seccion": "disenador",
+    "genero": "hombre",
+    "fam": "Ambarada especiada",
+    "cat": "oriental",
+    "encargue": false,
+    "disponible": true,
+    "precio": 4590,
+    "img": "img/perfumes/val_vendetta_uomo.webp",
+    "desc": "El lanzamiento 2026 de Valentino para él. Jengibre picante que se abre a canela y un acorde de licor, sobre un fondo de pachulí. Cálido, especiado y adictivo, ideal para la noche.",
+    "top": "Jengibre",
+    "heart": "Canela · Acorde de licor",
+    "base": "Pachulí · Maderas",
+    "il": "Presentación",
+    "insp": "Original · consultá presentaciones"
   }
 ];
