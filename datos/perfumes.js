@@ -1353,7 +1353,7 @@ window.PERFUMES = [
     "cat": "gourmand",
     "encargue": false,
     "disponible": true,
-    "precio": 4890,
+    "precio": 5490,
     "img": "img/perfumes/good_girl_jasmine.webp",
     "desc": "Jazmín y almendra amarga con un fondo de toffee y haba tonka. La nueva versión golosa y elegante de Good Girl.",
     "top": "Mandarina · Grosella negra",
