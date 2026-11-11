@@ -1258,7 +1258,7 @@ window.PERFUMES = [
     "cat": "amaderado",
     "encargue": false,
     "disponible": true,
-    "precio": 4590,
+    "precio": 4200,
     "img": "img/perfumes/polo_black.webp",
     "desc": "Mango helado y salvia sobre pachulí y sándalo. Sofisticado, suave y distinto.",
     "top": "Mango helado · Mandarina · Limón",
