@@ -308,3 +308,19 @@ button.modal-cta.ok{filter:brightness(1.1)}
   .bus-box{max-height:calc(100vh - 24px)}
   .hero-buscar span{font-size:14px}
 }
+
+/* Cartel de decants en el inicio */
+.hero-decants{display:inline-flex;align-items:center;gap:10px;margin:0 auto 26px;padding:9px 18px;border:1px solid rgba(198,160,91,.4);
+  border-radius:30px;font-family:'Jost',sans-serif;font-size:13px;letter-spacing:.5px;color:var(--gold-l);background:rgba(198,160,91,.07);transition:.2s}
+.hero-decants:hover{background:rgba(198,160,91,.16)}
+.hero-decants i{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold)}
+.hero-decants span{transition:transform .2s}
+.hero-decants:hover span{transform:translateX(3px)}
+@media(max-width:760px){.hero-decants{font-size:12px;padding:8px 14px}}
+@media(max-width:760px){
+  .dec-intro{grid-template-columns:repeat(3,1fr)!important;gap:8px;padding:0 16px 6px}
+  .dec-fact{padding:14px 6px}
+  .dec-fact .big{font-size:22px}
+  .dec-fact .lab{font-size:9px;letter-spacing:1.5px}
+  .dec-fact p{display:none}
+}
