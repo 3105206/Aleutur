@@ -68,6 +68,12 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:22px 3
 .card-img img{max-height:260px;max-width:78%;object-fit:contain;filter:drop-shadow(0 16px 22px rgba(0,0,0,.5))}
 .badge{position:absolute;top:14px;right:14px;font-family:'Jost',sans-serif;letter-spacing:1px;text-transform:uppercase;
   font-size:10px;background:linear-gradient(135deg,var(--gold-l),var(--gold));color:var(--bg);padding:6px 12px;border-radius:20px}
+.stock-tag{position:absolute;top:14px;left:14px;display:flex;align-items:center;gap:7px;font-family:'Jost',sans-serif;
+  font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ivory);background:rgba(11,11,13,.72);
+  border:1px solid rgba(95,211,141,.35);padding:5px 11px 5px 9px;border-radius:20px}
+.stock-tag i,.stock-linea i{width:6px;height:6px;border-radius:50%;background:#5fd38d;box-shadow:0 0 6px rgba(95,211,141,.8);flex-shrink:0}
+.stock-linea{display:flex;align-items:center;gap:8px;font-family:'Jost',sans-serif;font-size:12px;letter-spacing:1px;
+  text-transform:uppercase;color:#9fdcb7;margin:-6px 0 18px}
 .card-body{padding:22px 24px 26px}
 .card-brand{font-family:'Jost',sans-serif;letter-spacing:2px;text-transform:uppercase;font-size:11px;color:var(--gold)}
 .card-name{font-family:'Playfair Display',serif;font-size:22px;margin:8px 0 6px;line-height:1.2}

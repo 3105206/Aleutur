@@ -24,7 +24,7 @@ function esc(t){
 function cardHTML(p){
   return `
     <div class="card" data-cat="${esc(p.cat)}" data-name="${esc(p.name.toLowerCase())}" data-brand="${esc(p.brand.toLowerCase())}" onclick="openModal('${esc(p.k)}')">
-      <div class="card-img"><img src="${esc(p.img)}" alt="${esc(p.name)}" loading="lazy">${p.encargue ? '<span class="badge">Por encargue</span>' : ''}</div>
+      <div class="card-img"><img src="${esc(p.img)}" alt="${esc(p.name)}" loading="lazy">${p.encargue ? '<span class="badge">Por encargue</span>' : ''}${p.stock ? '<span class="stock-tag"><i></i>En stock</span>' : ''}</div>
       <div class="card-body">
         <div class="card-brand">${esc(p.brand)}</div>
         <div class="card-name">${esc(p.name)}</div>
@@ -61,6 +61,7 @@ function openModal(k){
       <div class="modal-name">${esc(p.name)}</div>
       <div class="modal-fam">${esc(p.fam)}</div>
       <div class="modal-price ${precioClase(p)}">${precioTxt(p)}</div>
+      ${p.stock ? '<div class="stock-linea"><i></i>En stock · entrega inmediata</div>' : ''}
       ${encargueBadge}
       <div class="modal-desc">${esc(p.desc)}</div>
       <div class="notes">
