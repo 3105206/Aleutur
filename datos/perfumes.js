@@ -2047,5 +2047,24 @@ window.PERFUMES = [
     "base": "Maderas · Vetiver",
     "il": "Presentación",
     "insp": "Original · consultá presentaciones"
+  },
+  {
+    "k": "armani_i_will",
+    "name": "I Will",
+    "brand": "Giorgio Armani",
+    "seccion": "disenador",
+    "genero": "hombre",
+    "fam": "Ambarada amaderada",
+    "cat": "oriental",
+    "encargue": true,
+    "disponible": true,
+    "precio": 6490,
+    "img": "img/perfumes/armani_i_will.webp",
+    "desc": "El lanzamiento 2026 de Giorgio Armani. Cardamomo y bergamota sobre lavanda y salvia, con un fondo de vainilla bourbon, cuero y pachulí. Dulce, especiado y muy elegante.",
+    "top": "Cardamomo · Bergamota de Calabria",
+    "heart": "Lavanda · Salvia · Hoja de violeta",
+    "base": "Vainilla bourbon · Cuero · Pachulí",
+    "il": "Presentación",
+    "insp": "Original · consultá presentaciones"
   }
 ];
