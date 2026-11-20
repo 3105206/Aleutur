@@ -45,7 +45,18 @@ function renderGrid(){
   };
   Object.keys(grillas).forEach(id => {
     const g = document.getElementById(id);
-    if(g) g.innerHTML = DATA.filter(grillas[id]).map(cardHTML).join('');
+    if(!g) return;
+    const lista = DATA.filter(grillas[id]).sort((a, b) =>
+      a.brand.localeCompare(b.brand, 'es', {sensitivity:'base'}) || a.name.localeCompare(b.name, 'es', {sensitivity:'base'}));
+    let html = '', marca = null;
+    lista.forEach(p => {
+      if(p.brand.toLowerCase() !== marca){
+        marca = p.brand.toLowerCase();
+        html += `<div class="brand-head" data-brand="${esc(marca)}"><span>${esc(p.brand)}</span></div>`;
+      }
+      html += cardHTML(p);
+    });
+    g.innerHTML = html;
   });
 }
 
@@ -102,6 +113,10 @@ function filterCards(){
     const show = matchCat && matchQ;
     card.style.display = show ? '' : 'none';
     if(show) visible++;
+  });
+  document.querySelectorAll('#grid .brand-head').forEach(h=>{
+    const hay = [...document.querySelectorAll('#grid .card')].some(c=>c.dataset.brand===h.dataset.brand && c.style.display!=='none');
+    h.style.display = hay ? '' : 'none';
   });
   document.getElementById('emptyMsg').style.display = visible===0 ? 'block' : 'none';
 }

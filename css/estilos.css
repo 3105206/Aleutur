@@ -324,3 +324,10 @@ button.modal-cta.ok{filter:brightness(1.1)}
   .dec-fact .lab{font-size:9px;letter-spacing:1.5px}
   .dec-fact p{display:none}
 }
+
+/* Encabezado de marca dentro de cada grilla */
+.brand-head{grid-column:1/-1;display:flex;align-items:center;gap:18px;margin:18px 0 -6px;
+  font-family:'Jost',sans-serif;font-size:13px;letter-spacing:5px;text-transform:uppercase;color:var(--gold)}
+.brand-head::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(198,160,91,.35),transparent)}
+.brand-head:first-child{margin-top:0}
+@media(max-width:760px){.brand-head{font-size:11px;letter-spacing:4px;margin:10px 0 -4px}}
