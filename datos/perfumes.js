@@ -2066,5 +2066,24 @@ window.PERFUMES = [
     "base": "Vainilla bourbon · Cuero · Pachulí",
     "il": "Presentación",
     "insp": "Original · consultá presentaciones"
+  },
+  {
+    "k": "million_black",
+    "name": "1 Million Black",
+    "brand": "Rabanne",
+    "seccion": "disenador",
+    "genero": "hombre",
+    "fam": "Frutal gourmand",
+    "cat": "gourmand",
+    "encargue": true,
+    "disponible": true,
+    "precio": 4590,
+    "img": "img/perfumes/million_black.webp",
+    "desc": "El lanzamiento 2026 de la línea 1 Million. Ananá asado y naranja sanguina sobre un corazón de vainilla, con fondo de ébano. Dulce, frutal y muy llamativo, ideal para la noche.",
+    "top": "Ananá asado · Naranja sanguina",
+    "heart": "Vainilla",
+    "base": "Ébano · Maderas",
+    "il": "Presentación",
+    "insp": "Original · consultá presentaciones"
   }
 ];
