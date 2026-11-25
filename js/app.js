@@ -9,6 +9,8 @@ const WA = "59891700666";
 // DESCUENTO GENERAL (Black Friday): 0.15 = 15% off en toda la web. Poner 0 para sacarlo.
 const DESCUENTO = 0.15;
 const DESC_TXT = 'BLACK FRIDAY · 15% OFF EN TODA LA WEB';
+const SIN_DESCUENTO = ['chance_splendide', 'khamrah_waha'];   // perfumes que quedan a precio normal
+const tieneDesc = p => DESCUENTO && !SIN_DESCUENTO.includes(p.k);
 const dsc = v => DESCUENTO ? Math.round(Number(v) * (1 - DESCUENTO) / 10) * 10 : Number(v);
 const conDesc = v => DESCUENTO
   ? `<s class="precio-viejo">$ ${Number(v).toLocaleString('es-UY')}</s> $ ${dsc(v).toLocaleString('es-UY')}`
@@ -18,7 +20,7 @@ const conDesc = v => DESCUENTO
 function precioTxt(p){
   if(p.disponible === false) return 'No disponible por ahora';
   if(!p.precio) return 'Consultar precio';
-  return conDesc(p.precio);
+  return tieneDesc(p) ? conDesc(p.precio) : '$ ' + Number(p.precio).toLocaleString('es-UY');
 }
 function precioClase(p){
   return p.disponible === false ? 'agotado' : (p.precio ? '' : 'consultar');
@@ -218,7 +220,7 @@ function addItem(item, btn){
 }
 function addPerfume(k, btn){
   const p = DATA.find(x => x.k === k); if(!p) return;
-  addItem({id:'p:'+k, tipo:'Perfume', nombre:p.name, detalle:p.brand, precio:p.precio ? dsc(p.precio) : null}, btn);
+  addItem({id:'p:'+k, tipo:'Perfume', nombre:p.name, detalle:p.brand, precio:p.precio ? (tieneDesc(p) ? dsc(p.precio) : Number(p.precio)) : null}, btn);
 }
 function addDecant(k, btn){
   const x = DECANTS.find(d => d.k === k); if(!x) return;
