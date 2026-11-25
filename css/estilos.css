@@ -310,7 +310,7 @@ button.modal-cta.ok{filter:brightness(1.1)}
 }
 
 /* Cartel de decants en el inicio */
-.hero-decants{display:inline-flex;align-items:center;gap:10px;margin:0 auto 26px;padding:9px 18px;border:1px solid rgba(198,160,91,.4);
+.hero-decants{display:flex;width:fit-content;align-items:center;gap:10px;margin:0 auto 26px;padding:9px 18px;border:1px solid rgba(198,160,91,.4);
   border-radius:30px;font-family:'Jost',sans-serif;font-size:13px;letter-spacing:.5px;color:var(--gold-l);background:rgba(198,160,91,.07);transition:.2s}
 .hero-decants:hover{background:rgba(198,160,91,.16)}
 .hero-decants i{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold)}
@@ -331,3 +331,9 @@ button.modal-cta.ok{filter:brightness(1.1)}
 .brand-head::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(198,160,91,.35),transparent)}
 .brand-head:first-child{margin-top:0}
 @media(max-width:760px){.brand-head{font-size:11px;letter-spacing:4px;margin:10px 0 -4px}}
+
+/* Descuento general */
+.precio-viejo{color:var(--muted);opacity:.75;font-size:.72em;margin-right:6px;text-decoration-color:#e04848;text-decoration-thickness:2px}
+.promo-bar{background:#0b0b0d;border-bottom:1px solid rgba(198,160,91,.4);color:var(--gold-l);text-align:center;padding:9px 12px;
+  font-family:'Jost',sans-serif;font-size:12px;letter-spacing:3px;font-weight:500}
+@media(max-width:760px){.promo-bar{font-size:10px;letter-spacing:2px}}

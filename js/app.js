@@ -6,11 +6,19 @@ const DECANTS = window.DECANTS || [];
 const COMBOS = window.COMBOS || [];
 const WA = "59891700666";
 
+// DESCUENTO GENERAL (Black Friday): 0.15 = 15% off en toda la web. Poner 0 para sacarlo.
+const DESCUENTO = 0.15;
+const DESC_TXT = 'BLACK FRIDAY · 15% OFF EN TODA LA WEB';
+const dsc = v => DESCUENTO ? Math.round(Number(v) * (1 - DESCUENTO) / 10) * 10 : Number(v);
+const conDesc = v => DESCUENTO
+  ? `<s class="precio-viejo">$ ${Number(v).toLocaleString('es-UY')}</s> $ ${dsc(v).toLocaleString('es-UY')}`
+  : '$ ' + Number(v).toLocaleString('es-UY');
+
 // Precio para mostrar: "$ 2.390", "Consultar precio" o "No disponible por ahora".
 function precioTxt(p){
   if(p.disponible === false) return 'No disponible por ahora';
   if(!p.precio) return 'Consultar precio';
-  return '$ ' + Number(p.precio).toLocaleString('es-UY');
+  return conDesc(p.precio);
 }
 function precioClase(p){
   return p.disponible === false ? 'agotado' : (p.precio ? '' : 'consultar');
@@ -151,7 +159,7 @@ function renderDecants(){
         <div class="dec-brand">${esc(marca)}</div>
         <div class="dec-name">${esc(nombre)}</div>
         <div class="dec-dupe">${esc(x.dupe)}</div>
-        <div class="dec-price">$ ${esc(x.precio)}</div>
+        <div class="dec-price">${conDesc(x.precio)}</div>
         <button class="dec-cta" onclick="addDecant('${esc(x.k)}', this)">Agregar al carrito</button>
       </div>
     </div>`;
@@ -170,7 +178,7 @@ function renderDecants(){
       <div class="sub">3 decants de 5 ml</div>
       <div class="combo-imgs">${imgs}</div>
       ${lista}
-      <div class="precio">$ ${esc(cb.precio)}</div>
+      <div class="precio">${conDesc(cb.precio)}</div>
       <div class="ahorro">${esc(cb.ahorro)}</div>
       <button class="dec-cta" onclick="addCombo(${COMBOS.indexOf(cb)}, this)">Agregar combo</button>
     </div>`;
@@ -210,17 +218,17 @@ function addItem(item, btn){
 }
 function addPerfume(k, btn){
   const p = DATA.find(x => x.k === k); if(!p) return;
-  addItem({id:'p:'+k, tipo:'Perfume', nombre:p.name, detalle:p.brand, precio:p.precio || null}, btn);
+  addItem({id:'p:'+k, tipo:'Perfume', nombre:p.name, detalle:p.brand, precio:p.precio ? dsc(p.precio) : null}, btn);
 }
 function addDecant(k, btn){
   const x = DECANTS.find(d => d.k === k); if(!x) return;
   const info = infoOf(k);
-  addItem({id:'d:'+k, tipo:'Decant 5 ml', nombre:x.name || info.name, detalle:x.brand || info.brand, precio:Number(x.precio) || null}, btn);
+  addItem({id:'d:'+k, tipo:'Decant 5 ml', nombre:x.name || info.name, detalle:x.brand || info.brand, precio:Number(x.precio) ? dsc(x.precio) : null}, btn);
 }
 function addCombo(i, btn){
   const cb = COMBOS[i]; if(!cb) return;
   const det = cb.labels.length ? cb.labels.join(', ') : 'Elijo los 3 decants por WhatsApp';
-  addItem({id:'c:'+cb.nombre, tipo:'Combo decants', nombre:cb.nombre, detalle:det, precio:Number(cb.precio) || null}, btn);
+  addItem({id:'c:'+cb.nombre, tipo:'Combo decants', nombre:cb.nombre, detalle:det, precio:Number(cb.precio) ? dsc(cb.precio) : null}, btn);
 }
 function cambiarCant(id, d){
   const it = CART.find(x => x.id === id); if(!it) return;
@@ -268,6 +276,7 @@ function finalizarPedido(){
   const lineas = CART.map(x => `• ${x.cant} x ${x.tipo === 'Perfume' ? '' : x.tipo + ' · '}${x.nombre} (${x.detalle})` +
     (x.precio ? ` — ${$(x.precio * x.cant)}` : ' — precio a consultar'));
   let msg = 'Hola Al Eutur! 🖤 Quiero hacer este pedido:\n\n' + lineas.join('\n') + '\n\n*Total: ' + $(totalCarrito()) + '*';
+  if(DESCUENTO) msg += '\n(' + DESC_TXT.split(' · ')[0] + ': ' + Math.round(DESCUENTO * 100) + '% OFF aplicado)';
   if(CART.some(x => !x.precio)) msg += '\n(sin incluir los productos con precio a consultar)';
   msg += '\n\n¿Me confirman stock y forma de entrega?';
   window.open('https://wa.me/' + WA + '?text=' + encodeURIComponent(msg), '_blank');
@@ -325,3 +334,12 @@ renderGrid();
 renderDecants();
 renderCart();
 renderVitrina();
+
+// Cartel de descuento arriba de todo
+if(DESCUENTO){
+  const b = document.createElement('div');
+  b.className = 'promo-bar'; b.textContent = DESC_TXT;
+  document.body.prepend(b);
+  const hd = document.querySelector('.hero-decants');
+  if(hd) hd.innerHTML = hd.innerHTML.replace('$290', '$' + dsc(290));
+}
